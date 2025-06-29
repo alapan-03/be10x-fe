@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import Cookies from "universal-cookie";
 import { Link } from "react-router";
+import logo from "./assets/be10x-icon.png"; // Adjust the path as necessary
 
 const Navbar = () => {
   const cookies = new Cookies();
@@ -22,8 +23,7 @@ function logout() {
   return (
     <nav className="navbar">
       <div className="nav-left">
-        {/* <img src="/logo192.png" alt="logo" className="logo" /> */}
-        <div className="logo">📉</div>
+        <img src={logo} alt="logo" className="logo" />
         <span className="app-name">Mutuality</span>
       </div>
 

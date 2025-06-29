@@ -27,7 +27,7 @@ export default function Hero() {
           <br />
           Get insights and make informed decisions.
         </p>
-        <a href="#card-container"><div className="hero-buttons animate-fade-up delay-3">
+        <a href="#scroll-entry"><div className="hero-buttons animate-fade-up delay-3">
           {/* <Link to={userId ? "/category" : "/login"} className="btn primary"> */}
           💡 Get Started
           {/* </Link> */}
