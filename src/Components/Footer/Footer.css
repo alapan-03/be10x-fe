@@ -1,0 +1,115 @@
+
+a{
+    text-decoration: none;
+    color: gray;
+}
+
+a:hover {
+    color:#989898; 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
+.footer{
+    border-top: 1px solid #d2cbc648;
+    margin-top: 4rem;
+    display: flex;
+    align-items: flex-start;
+    height: 12vh;
+    justify-content: space-around;
+    font-size: 0.9rem;
+    padding-top: 2rem;
+    padding-left: 1rem;
+    gap: 1rem;
+    min-height: 7rem;
+    color: gray;
+    /* margin-left: 4rem; */
+}
+
+@media(max-width:800px){
+    .footer{
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 4rem;
+    }
+}
+
+.company-details{
+    /* color: #D2CBC6; */
+    display: flex;
+    flex-direction: column;
+    /* margin-left: 4vw; */
+}
+
+.company-details p{
+    margin-bottom: 0;
+}
+
+.footer-logo-cont{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    /* margin-top: 0;
+    padding-top: 0; */
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+
+}
+
+.footer-blackdoor{
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-logo{
+    width: 1.6rem;
+    border-radius: 50%;
+}
+
+.company-policy{
+    display: flex;
+    /* color: #D2CBC6; */
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.company-policy p{
+    margin-bottom: 0;
+    /* margin-top: 0.5rem; */
+}
+
+.policy-title{
+    /* color: #d2cbc67e; */
+    margin-bottom: 1rem!important;
+    align-self: flex-start;
+    margin-top: 0;
+}
+
+.company-policy-p1{
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.company-links{
+    align-self: center;
+    display: flex;
+    gap: 0.5rem;
+    margin-top: -1.2rem;
+}
+
+.policy-icon{
+    border: 1px solid #D2CBC6;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon{
+    margin: 0;
+    padding: 0;
+}

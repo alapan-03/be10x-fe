@@ -2,12 +2,13 @@
 import React from "react";
 import "./Hero.css";
 // import { Link } from "react-router";
-let Cookies = require("js-cookie");
+import Cookies from "js-cookie"; // Use js-cookie for cookie management
 
 export default function Hero() {
   const userId = Cookies.get("userId");
   return (
     <section className="hero">
+      
       <div className="floating-icons">
         <span className="icon idea">🚀</span>
         <span className="icon brain">🧠</span>
@@ -26,12 +27,13 @@ export default function Hero() {
           Reddit. Analyze sentiments, get expert insights, and launch products
           that matter.
         </p>
-        <div className="hero-buttons animate-fade-up delay-3">
+        <a href="#card-container"><div className="hero-buttons animate-fade-up delay-3">
           {/* <Link to={userId ? "/category" : "/login"} className="btn primary"> */}
           💡 Get Started
           {/* </Link> */}
           
         </div>
+        </a>
       </div>
     </section>
   );

@@ -9,11 +9,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
-  padding: 10px 20px;
+  /* background: #ffffff; */
+  padding: 20px 30px;
   /* border-bottom: 1px solid #ddd; */
   position: relative;
   font-family: sans-serif;
+  background-color: transparent;
 }
 
 .nav-left {
@@ -23,8 +24,10 @@
 }
 
 .logo {
-  width: 30px;
-  height: 30px;
+  font-size: 1.4rem;
+  align-self: center;
+  margin: 0;
+  padding: 0;
 }
 
 .app-name {
@@ -93,6 +96,16 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.login-link{
+  padding: 0.5rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .logout-btn:hover {
