@@ -34,7 +34,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
-  
+  /* min-height: 160vh; */
 }
 
 .card {
@@ -45,6 +45,7 @@
   text-align: left;
   transition: transform 0.2s ease;
   /* height: 20vh; */
+  border: 1px solid rgba(128, 128, 128, 0.2);
 }
 
 .card:hover {

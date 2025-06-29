@@ -6,3 +6,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.app{
+  min-height: 52vh;
+}

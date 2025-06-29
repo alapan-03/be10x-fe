@@ -47,8 +47,8 @@ function logout() {
         {dropdownOpen && (
           <div className="dropdown">
             <div className="mobile-links">
-              <a href="#features">Features</a>
-              <a href="#pricing">Pricing</a>
+              <a href="/">Home</a>
+              <a href="/saved">Saved</a>
             </div>
             <button className="logout-btn" onClick={logout}>Logout</button>
           </div>

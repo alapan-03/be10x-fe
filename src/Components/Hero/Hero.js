@@ -20,12 +20,12 @@ export default function Hero() {
 
       <div className="hero-content">
         <h1 className="hero-title animate-fade-up delay-1">
-          Build What People Actually Want, In Days
+          Know Your Mutual Funds Better, Easily!
         </h1>
         <p className="hero-subtitle animate-fade-up delay-2">
-          Discover real user problems and validate startup ideas directly from
-          Reddit. Analyze sentiments, get expert insights, and launch products
-          that matter.
+          Explore, know, and track your mutual funds with ease. 
+          <br />
+          Get insights and make informed decisions.
         </p>
         <a href="#card-container"><div className="hero-buttons animate-fade-up delay-3">
           {/* <Link to={userId ? "/category" : "/login"} className="btn primary"> */}
