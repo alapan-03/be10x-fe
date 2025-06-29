@@ -30,9 +30,26 @@
     box-shadow: 2px 2px 40px rgba(0, 0, 0, 0.1);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     .signin-form {
       width: 45vw;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .signin-form {
+      width: 50vw;
+    }
+  }
+  @media (max-width: 700px) {
+    .signin-form {
+      width: 65vw;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .signin-form {
+      width: 75vw;
     }
   }
   

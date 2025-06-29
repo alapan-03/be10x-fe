@@ -6,6 +6,8 @@ import { zoomies } from "ldrs";
 import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import URL from "./../../url.js";
+import { ring } from 'ldrs'
+ring.register()
 zoomies.register();
 
 const ITEMS_PER_PAGE = 12;
@@ -20,6 +22,7 @@ function App() {
   const [selectedFund, setSelectedFund] = useState(null);
   const [savedFunds, setSavedFunds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saveLoading, setSaveLoading] = useState(false);
 
   // Fetch saved on load
   useEffect(() => {
@@ -40,8 +43,16 @@ function App() {
   }, []);
 
   const toggleSave = async (fund) => {
+    setSaveLoading(true);
+
     let updated = [];
     const token = cookies.get("token");
+
+
+    if(!token) {
+      toast.error("You need to be logged in to save funds");
+      return;
+    }
 
     const alreadySaved =
       savedFunds?.length > 0 &&
@@ -92,6 +103,7 @@ function App() {
         throw new Error(`Failed to update saved list. Status: ${res.status}`);
       }
       setSavedFunds(updated);
+      setSaveLoading(false);
     } catch (err) {
       console.error("Error while saving/removing fund:", err);
       toast.error("Something went wrong");
@@ -184,6 +196,7 @@ function App() {
                   !!savedFunds?.length > 0 &&
                   savedFunds?.find((f) => f.schemeCode === fund.schemeCode)
                 }
+                saveLoading={saveLoading}
               />
             </div>
           ))

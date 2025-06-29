@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 
-function MutualFundCard({ fund, isSaved, onToggleSave }) {
+function MutualFundCard({ fund, isSaved, onToggleSave, saveLoading }) {
   return (
     <div className="card">
       <div className="card-header">
