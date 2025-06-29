@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import URL from "../../url.js"; // Adjust the import path as necessary
 
-const AuthPage = () => {
+const Signup = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -20,7 +20,7 @@ const AuthPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `${URL}/api/auth/login`;
+    const url = `${URL}/api/auth/register`;
 
     try {
       const res = await fetch(url, {
@@ -33,7 +33,7 @@ const AuthPage = () => {
 
       if (!res.ok) throw new Error(data.msg || "Something went wrong");
 
-      toast.success("Login successful!");
+      toast.success("Signup successful!");
 
       Cookies.set("token", data.token, {
         expires: 7, // days before it expires
@@ -56,11 +56,19 @@ const AuthPage = () => {
       <Toaster position="top-center" reverseOrder={false} />
       <form className="signin-form" onSubmit={handleSubmit}>
         <div className="login-text-cont">
-          <h2>Welcome Back!</h2>
-          <p>Sign in to continue</p>
+          <h2>Welcome!</h2>
+          <p>Sign Up to continue</p>
         </div>
 
         <div className="login-name-email">
+          <input
+            type="name"
+            name="name"
+            onChange={handleChange}
+            required
+            placeholder="Name"
+          />
+
           <input
             type="email"
             name="email"
@@ -80,12 +88,7 @@ const AuthPage = () => {
 
         {/* {error && <p className="error-message">{error}</p>} */}
 
-        <p className="signup-q">
-          New User?{" "}
-          <a className="signup-link" href="/signup">
-            Signup
-          </a>
-        </p>
+        <p className="signup-q">Already have an account? <a className="signup-link" href="/login">Signin</a></p>
 
         <button className="login-submit">Sign In</button>
       </form>
@@ -93,4 +96,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default Signup;

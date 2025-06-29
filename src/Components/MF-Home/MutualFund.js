@@ -33,7 +33,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => setSavedFunds(data))
       .catch((err) => {
-        toast.error("Failed to fetch saved funds: " + err.message);
+        toast.error("Failed to fetch saved funds");
         // return;
         console.error("Failed to fetch saved funds", err);
       });
@@ -94,7 +94,7 @@ function App() {
       setSavedFunds(updated);
     } catch (err) {
       console.error("Error while saving/removing fund:", err);
-      toast.error("Something went wrong: " + err.message);
+      toast.error("Something went wrong");
       // Optional: rollback UI state if needed
     }
   };

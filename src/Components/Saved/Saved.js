@@ -34,7 +34,7 @@ function Saved() {
         return res.json();
       })
       .then((data) => setSavedFunds(data))
-      .catch((err) => toast.error("Failed to fetch saved funds: " + err.message));
+      .catch((err) => toast.error("Failed to fetch saved funds"));
   }, []);
 
   const fetchDetails = async (code) => {

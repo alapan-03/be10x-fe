@@ -141,3 +141,17 @@
     text-align: center;
   }
   
+
+
+
+
+  .signup-link{
+    color: #007bff;
+  }
+
+    .signup-q {
+        text-align: center;
+        font-size: 0.9rem;
+        color: #666;
+        /* margin-top: 1rem; */
+    }

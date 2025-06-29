@@ -8,6 +8,7 @@ import AuthPage from './Components/Auth/AuthPage.js';
 import Home from './Pages/Home.js';
 import Saved from './Components/Saved/Saved.js';
 import Footer from './Components/Footer/Footer.js';
+import Signup from './Components/Auth/Signup.js';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/saved" element={<Saved />} />
         <Route path="*" element={<h2 className='centered'>404 Page Not Found</h2>} /> 
       </Routes>
