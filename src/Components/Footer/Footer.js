@@ -1,5 +1,6 @@
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import logo from "./assets/be10x-icon.png";
 
 export default function Footer(props) {
   return (
@@ -9,7 +10,7 @@ export default function Footer(props) {
           <div className="footer-logo-cont">
             {/* <img className="footer-logo" src={logo} /> */}
             App by
-            📉
+            <img src={logo}></img>
               Mutual
           </div>
         </div>
