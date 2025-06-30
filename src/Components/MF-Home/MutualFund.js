@@ -103,8 +103,8 @@ function App() {
         }}
       />
 
-      {loading && (
-        <div className="loading-container">
+      <div className="card-container">
+        {loading ? <div className="loading-container">
           <l-zoomies
             size="80"
             stroke="5"
@@ -112,18 +112,14 @@ function App() {
             speed="1.4"
             color="black"
           ></l-zoomies>
-        </div>
-      )}
-
-      <div className="card-container">
-        {currentItems.length === 0 ? (
+        </div> : currentItems.length === 0 ? (
           <p className="no-results">No matching mutual funds found.</p>
         ) : (
           currentItems &&
           currentItems.length > 0 &&
           currentItems?.map((fund) => (
             <div
-              key={fund.schemeCode}
+              key={fund.schemeode}
               onClick={() => fetchFundDetails(fund.schemeCode)}
               style={{ cursor: "pointer" }}
             >
