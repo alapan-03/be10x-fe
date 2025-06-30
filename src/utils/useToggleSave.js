@@ -27,7 +27,7 @@ export default function useToggleSave() {
         console.error("Failed to fetch saved funds", err);
         toast.error("Could not fetch saved funds");
       });
-  }, [token]);
+  }, []);
 
   const toggleSave = async (fund) => {
     if (!token) {
@@ -51,7 +51,7 @@ export default function useToggleSave() {
         });
 
         if (!res.ok) {
-          toast.error("Failed to remove fund. Try refreshing the page");
+          toast.error("Failed! Try refreshing the page or login again");
           throw new Error(`Remove failed: ${res.status}`);
         }
 
@@ -69,7 +69,7 @@ export default function useToggleSave() {
         });
 
         if (!res.ok) {
-          toast.error("Failed to save fund. Try refreshing the page");
+          toast.error("Failed! Try refreshing the page or login again");
           throw new Error(`Save failed: ${res.status}`);
         }
 
