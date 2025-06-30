@@ -36,7 +36,7 @@ export default function useToggleSave() {
     }
 
     setSaveLoading(true);
-    const alreadySaved = savedFunds.find(
+    const alreadySaved = savedFunds && savedFunds.length > 0 && savedFunds.find(
       (f) => f.schemeCode === fund.schemeCode
     );
 
