@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import URL from "../../url.js"; // Adjust the import path as necessary
 import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 
 
 const AuthPage = () => {
@@ -42,17 +42,25 @@ const AuthPage = () => {
 
       // if (!res.ok) throw new Error(data.msg || "Something went wrong");
 
-      toast.success("Login successful!");
+      if(res.ok){
+        toast.success("Login successful!");
+  
+        Cookies.set("token", data.token, {
+          expires: 7, // days before it expires
+          // secure: true, // only over HTTPS
+          sameSite: "Strict", // or 'Lax' for some cross-site uses
+          origin: "*", // specify the origin if needed
+        })
+        
+        navigate("/") // Redirect to home page       
+      }
 
-      Cookies.set("token", data.token, {
-        expires: 7, // days before it expires
-        // secure: true, // only over HTTPS
-        sameSite: "Strict", // or 'Lax' for some cross-site uses
-        origin: "*", // specify the origin if needed
-      });
+     
+      else if(data.msg.includes("Credentials")){ 
+      toast.error("Login failed! Please check your credentials.");
+      }
+    
 
-      
-      navigate("/") // Redirect to home page
       
       setMessage("Success! Token: " + data.token);
     } catch (err) {

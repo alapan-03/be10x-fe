@@ -8,10 +8,8 @@ import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
 import { useNavigate } from "react-router-dom";
 
-
 const Signup = () => {
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,22 +38,25 @@ const Signup = () => {
 
       const data = await res.json();
 
-      toast.success("Signup successful!");
+      // console.log(data.msg)
+      if (res.ok) {
+        toast.success("Signup successful!");
 
-      Cookies.set("token", data.token, {
-        expires: 7, // days before it expires
-        // secure: true, // only over HTTPS
-        sameSite: "Strict", // or 'Lax' for some cross-site uses
-        origin: "*", // specify the origin if needed
-      });
+        Cookies.set("token", data.token, {
+          expires: 7, // days before it expires
+          // secure: true, // only over HTTPS
+          sameSite: "Strict", // or 'Lax' for some cross-site uses
+          origin: "*", // specify the origin if needed
+        });
 
-      navigate("/") // Redirect to home page      
-      setMessage("Success! Token: " + data.token);
+        navigate("/"); // Redirect to home page
+      } else if (data.msg.includes("exists")) {
+        toast.error("Signup failed! User already exists");
+      }
     } catch (err) {
       toast.error("Something went wrong");
       setMessage(err.message);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
