@@ -4,7 +4,7 @@ import MutualFundCard from "./../MF-Home/MutualFundCard";
 import Modal from "./../MF-Home/Modal";
 import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
-import URL from "../../url.js"; 
+import URL from "../../url.js";
 
 function Saved() {
   let ITEMS_PER_PAGE = 12;
@@ -60,20 +60,31 @@ function Saved() {
     const alreadySaved = savedFunds.find(
       (f) => f.schemeCode === fund.schemeCode
     );
-    if (alreadySaved) {
-      updated = savedFunds.filter((f) => f.schemeCode !== fund.schemeCode);
-      fetch(`${URL}/api/mutualfunds/${fund.schemeCode}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${cookies.get("token")}`, // Use token from localStorage
-        },
-      });
-    } else {
-      updated = [...savedFunds, fund];
-    }
 
-    setSavedFunds(updated);
+    if (alreadySaved) {
+      try {
+        const res = await fetch(`${URL}/api/mutualfunds/${fund.schemeCode}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${cookies.get("token")}`,
+          },
+        });
+
+        if (res.ok) {
+          const updated = savedFunds.filter(
+            (f) => f.schemeCode !== fund.schemeCode
+          );
+          setSavedFunds(updated);
+          toast.success("Fund removed successfully");
+        } else {
+          toast.error("Failed to remove fund");
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        toast.error("Something went wrong while deleting");
+      }
+    }
   };
 
   return (
