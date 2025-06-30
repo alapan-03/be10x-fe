@@ -93,7 +93,9 @@ function App() {
         // }
 
         // Update frontend state
-        setSavedFunds((prev) => [...prev, fund]);
+        // setSavedFunds((prev) => [...prev, fund]);
+        setSavedFunds((prev) => (Array.isArray(prev) ? [...prev, fund] : [fund]));
+
       }
 
       setSaveLoading(false);
