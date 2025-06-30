@@ -17,7 +17,7 @@ function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [reoload, setReload] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFund, setSelectedFund] = useState(null);
@@ -45,7 +45,7 @@ function App() {
         // return;
         console.error("Failed to fetch saved funds", err);
       });
-  }, []);
+  }, [reload]);
 
   const toggleSave = async (fund) => {
     setSaveLoading(true);
