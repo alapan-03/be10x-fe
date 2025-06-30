@@ -14,8 +14,8 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
       <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<AuthPage />} />
@@ -23,8 +23,8 @@ function App() {
         <Route path="/saved" element={<Saved />} />
         <Route path="*" element={<h2 className='centered'>404 Page Not Found</h2>} /> 
       </Routes>
-      </BrowserRouter>
       <Footer/>
+      </BrowserRouter>
     </div>
   );
 }

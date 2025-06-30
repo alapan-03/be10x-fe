@@ -8,8 +8,11 @@ import URL from "../../url.js";
 import useToggleSave from "../../utils/useToggleSave.js";
 import { Zoomies } from "ldrs/react";
 import "ldrs/react/Zoomies.css";
+import { useNavigate } from "react-router-dom";
 
 function Saved() {
+  const navigate = useNavigate();
+
   let ITEMS_PER_PAGE = 12;
   const cookies = new Cookies();
 
@@ -21,7 +24,7 @@ function Saved() {
 
   const userId = cookies.get("token");
   if (!userId) {
-    window.location.href = "/login"; // Redirect to login if not authenticated
+    navigate("/login"); // Redirect to login if not authenticated
   }
 
   const { savedFunds, setSavedFunds, toggleSave, saveLoading } =
@@ -37,10 +40,6 @@ function Saved() {
       },
     })
       .then((res) => {
-        if (!res.ok) {
-          toast.error("Failed to fetch saved funds: " + res.statusText);
-        }
-
         return res.json();
       })
       .then((data) => setSavedFunds(data))

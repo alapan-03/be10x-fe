@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import URL from "./../../url.js";
 import { ring } from "ldrs";
 import useToggleSave from "../../utils/useToggleSave.js";
+import { useLocation } from "react-router-dom";
 
 ring.register();
 zoomies.register();
@@ -15,6 +16,8 @@ zoomies.register();
 const ITEMS_PER_PAGE = 12;
 
 function App() {
+  const location = useLocation();
+
   const cookies = new Cookies();
   const { savedFunds, setSavedFunds, toggleSave, saveLoading } =
     useToggleSave();
@@ -42,7 +45,7 @@ function App() {
         // return;
         console.error("Failed to fetch saved funds", err);
       });
-  }, []);
+  }, [location.pathname]);
 
   // Fetch mutual funds data
   useEffect(() => {

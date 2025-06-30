@@ -5,14 +5,19 @@ import Modal from "./../MF-Home/Modal";
 import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import URL from "../../url.js"; 
+import { useNavigate } from "react-router-dom";
+
 
 function Saved() {
+
+  const navigate = useNavigate();
+
   let ITEMS_PER_PAGE = 12;
   const cookies = new Cookies();
 
   const userId = cookies.get("token");
   if (!userId) {
-    window.location.href = "/login"; // Redirect to login if not authenticated
+    navigate("/login"); // Redirect to login if not authenticated
   }
   const [savedFunds, setSavedFunds] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);

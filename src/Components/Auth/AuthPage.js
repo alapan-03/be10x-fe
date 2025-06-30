@@ -6,8 +6,13 @@ import Cookies from "js-cookie";
 import URL from "../../url.js"; // Adjust the import path as necessary
 import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
+import { useNavigate } from "react-router-dom";
+
 
 const AuthPage = () => {
+
+    const navigate = useNavigate();
+
   const [isRegister, setIsRegister] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -47,7 +52,7 @@ const AuthPage = () => {
       });
 
       
-      window.location.href = "/"; // Redirect to home page
+      navigate("/") // Redirect to home page
       
       setMessage("Success! Token: " + data.token);
     } catch (err) {

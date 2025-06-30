@@ -3,8 +3,10 @@ import "./Navbar.css";
 import Cookies from "universal-cookie";
 import { Link } from "react-router";
 import logo from "./assets/be10x-icon.png"; // Adjust the path as necessary
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const cookies = new Cookies();
 
   const userId = cookies.get("token");
@@ -15,9 +17,10 @@ const Navbar = () => {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   function logout() {
+    toggleDropdown();
     cookies.remove("token", { path: "/" });
     setToken(null);
-    window.location.href = "/"; // Redirect to home page
+    navigate("/"); // Redirect to home page
   }
 
   return (
@@ -28,8 +31,8 @@ const Navbar = () => {
       </div>
 
       <div className="nav-center">
-        <a href="/">Home</a>
-        <a href="/saved">Saved</a>
+        <Link to="/">Home</Link>
+        <Link to="/saved">Saved</Link>
       </div>
 
       <div className="nav-right">
@@ -38,16 +41,20 @@ const Navbar = () => {
             <img src="https://i.pravatar.cc/30" alt="avatar" />
           </div>
         ) : (
-          <a href="/login">
+          <Link to="/login">
             <button className="login-link">Login</button>
-          </a>
+          </Link>
         )}
 
         {dropdownOpen && (
           <div className="dropdown">
             <div className="mobile-links">
-              <a href="/">Home</a>
-              <a href="/saved">Saved</a>
+              <Link to="/" onClick={toggleDropdown}>
+                Home
+              </Link>
+              <Link to="/saved" onClick={toggleDropdown}>
+                Saved
+              </Link>
             </div>
             <button className="logout-btn" onClick={logout}>
               Logout
