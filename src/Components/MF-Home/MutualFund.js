@@ -7,6 +7,8 @@ import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import URL from "./../../url.js";
 import { ring } from "ldrs";
+import useToggleSave from "../../utils/useToggleSave.js";
+
 ring.register();
 zoomies.register();
 
@@ -14,20 +16,15 @@ const ITEMS_PER_PAGE = 12;
 
 function App() {
   const cookies = new Cookies();
+  const { savedFunds, setSavedFunds, toggleSave, saveLoading } =
+    useToggleSave();
+
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [reload, setReload] = useState(false);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFund, setSelectedFund] = useState(null);
-  const [savedFunds, setSavedFunds] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [saveLoading, setSaveLoading] = useState(false);
-
-  useEffect(() => {
-    setReload(true);
-  }, []);
 
   // Fetch saved on load
   useEffect(() => {
@@ -45,66 +42,9 @@ function App() {
         // return;
         console.error("Failed to fetch saved funds", err);
       });
-  }, [reload]);
+  }, []);
 
-  const toggleSave = async (fund) => {
-    setSaveLoading(true);
-    const token = cookies.get("token");
-
-    if (!token) {
-      toast.error("You need to be logged in to save funds");
-      return;
-    }
-
-    const alreadySaved =
-      savedFunds &&
-      savedFunds.length > 0 &&
-      savedFunds.find((f) => f.schemeCode === fund.schemeCode);
-
-    try {
-      if (alreadySaved) {
-        // UNSAVE: Remove from backend and local state
-        const res = await fetch(`${URL}/api/mutualfunds/${fund.schemeCode}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          toast.error("Failed to remove fund");
-          throw new Error(`Remove failed: ${res.status}`);
-        }
-
-        // Update frontend state
-        setSavedFunds((prev) =>
-          prev.filter((f) => f.schemeCode !== fund.schemeCode)
-        );
-      } else {
-        // SAVE: Send just this fund
-        const res = await fetch(`${URL}/api/mutualfunds`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(fund),
-        });
-
-        setSavedFunds((prev) =>
-          Array.isArray(prev) ? [...prev, fund] : [fund]
-        );
-      }
-
-      setSaveLoading(false);
-    } catch (err) {
-      console.error("Error while saving/removing fund:", err);
-      toast.error("Something went wrong");
-      setSaveLoading(false);
-    }
-  };
-
+  // Fetch mutual funds data
   useEffect(() => {
     fetch("https://api.mfapi.in/mf")
       .then((res) => {
@@ -187,7 +127,7 @@ function App() {
               <MutualFundCard
                 fund={fund}
                 onClick={() => fetchFundDetails(fund.schemeCode)}
-                onToggleSave={toggleSave && toggleSave}
+                onToggleSave={toggleSave}
                 isSaved={
                   !!savedFunds?.length > 0 &&
                   savedFunds?.find((f) => f.schemeCode === fund.schemeCode)

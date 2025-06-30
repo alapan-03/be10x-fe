@@ -5,21 +5,30 @@ import Modal from "./../MF-Home/Modal";
 import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import URL from "../../url.js";
+import useToggleSave from "../../utils/useToggleSave.js";
+import { Zoomies } from "ldrs/react";
+import "ldrs/react/Zoomies.css";
 
 function Saved() {
   let ITEMS_PER_PAGE = 12;
   const cookies = new Cookies();
 
+  // const [savedFunds, setSavedFunds] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedFund, setSelectedFund] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
   const userId = cookies.get("token");
   if (!userId) {
     window.location.href = "/login"; // Redirect to login if not authenticated
   }
-  const [savedFunds, setSavedFunds] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedFund, setSelectedFund] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const { savedFunds, setSavedFunds, toggleSave, saveLoading } =
+    useToggleSave();
 
   useEffect(() => {
+    setLoading(true);
     fetch(`${URL}/api/mutualfunds`, {
       method: "GET",
       headers: {
@@ -31,10 +40,12 @@ function Saved() {
         if (!res.ok) {
           toast.error("Failed to fetch saved funds: " + res.statusText);
         }
+
         return res.json();
       })
       .then((data) => setSavedFunds(data))
-      .catch((err) => toast.error("Failed to fetch saved funds"));
+      .catch((err) => toast.error("Failed to fetch saved funds"))
+      .finally(() => setLoading(false));
   }, []);
 
   const fetchDetails = async (code) => {
@@ -55,45 +66,21 @@ function Saved() {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  const toggleSave = async (fund) => {
-    let updated;
-    const alreadySaved = savedFunds.find(
-      (f) => f.schemeCode === fund.schemeCode
-    );
-
-    if (alreadySaved) {
-      try {
-        const res = await fetch(`${URL}/api/mutualfunds/${fund.schemeCode}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${cookies.get("token")}`,
-          },
-        });
-
-        if (res.ok) {
-          const updated = savedFunds.filter(
-            (f) => f.schemeCode !== fund.schemeCode
-          );
-          setSavedFunds(updated);
-          toast.success("Fund removed successfully");
-        } else {
-          toast.error("Failed to remove fund");
-        }
-      } catch (error) {
-        console.error("Delete error:", error);
-        toast.error("Something went wrong while deleting");
-      }
-    }
-  };
-
   return (
     <div className="app">
       <Toaster position="top-center" reverseOrder={false} />
 
       <h2 className="title">Saved Mutual Funds</h2>
 
-      {savedFunds?.length === 0 ? (
+      {loading ? (
+        <Zoomies
+          size="80"
+          stroke="5"
+          bgOpacity="0.1"
+          speed="1.4"
+          color="black"
+        />
+      ) : savedFunds?.length === 0 ? (
         <p className="no-results">You haven't saved any funds yet.</p>
       ) : (
         <div className="card-container">

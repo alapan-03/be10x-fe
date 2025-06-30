@@ -5,7 +5,6 @@ import MutualFund from "./../Components/MF-Home/MutualFund";
 export default function Home(second) {
     return (
         <>
-        {/* <Navbar/> */}
         <Hero/>
         <MutualFund/>
         </>

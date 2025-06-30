@@ -11,6 +11,7 @@ import Footer from './Components/Footer/Footer.js';
 import Signup from './Components/Auth/Signup.js';
 
 function App() {
+
   return (
     <div className="App">
       <Navbar />
