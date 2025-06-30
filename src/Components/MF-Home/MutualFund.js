@@ -17,6 +17,7 @@ function App() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [reoload, setReload] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedFund, setSelectedFund] = useState(null);
@@ -24,13 +25,17 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
 
+  useEffect(() => {
+    setReload(true);
+  }, []);
+
   // Fetch saved on load
   useEffect(() => {
     fetch(`${URL}/api/mutualfunds`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.get("token")}`, 
+        Authorization: `Bearer ${cookies.get("token")}`,
       },
     })
       .then((res) => res.json())
@@ -87,15 +92,9 @@ function App() {
           body: JSON.stringify(fund),
         });
 
-        // if (!res.ok) {
-        //   toast.error("Failed to save fund");
-        //   throw new Error(`Save failed: ${res.status}`);
-        // }
-
-        // Update frontend state
-        // setSavedFunds((prev) => [...prev, fund]);
-        setSavedFunds((prev) => (Array.isArray(prev) ? [...prev, fund] : [fund]));
-
+        setSavedFunds((prev) =>
+          Array.isArray(prev) ? [...prev, fund] : [fund]
+        );
       }
 
       setSaveLoading(false);
