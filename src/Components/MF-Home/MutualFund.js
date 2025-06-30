@@ -6,8 +6,8 @@ import { zoomies } from "ldrs";
 import Cookies from "universal-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import URL from "./../../url.js";
-import { ring } from 'ldrs'
-ring.register()
+import { ring } from "ldrs";
+ring.register();
 zoomies.register();
 
 const ITEMS_PER_PAGE = 12;
@@ -30,7 +30,7 @@ function App() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.get("token")}`, // Use token from localStorage
+        Authorization: `Bearer ${cookies.get("token")}`, 
       },
     })
       .then((res) => res.json())
@@ -42,136 +42,67 @@ function App() {
       });
   }, []);
 
-  // const toggleSave = async (fund) => {
-  //   setSaveLoading(true);
+  const toggleSave = async (fund) => {
+    setSaveLoading(true);
+    const token = cookies.get("token");
 
-  //   let updated = [];
-  //   const token = cookies.get("token");
-
-
-  //   if(!token) {
-  //     toast.error("You need to be logged in to save funds");
-  //     return;
-  //   }
-
-  //   const alreadySaved =
-  //     savedFunds?.length > 0 &&
-  //     savedFunds?.find((f) => f.schemeCode === fund.schemeCode);
-
-  //   try {
-  //     if (alreadySaved) {
-  //       // Remove from saved
-  //       updated = savedFunds.filter((f) => f.schemeCode !== fund.schemeCode);
-
-  //       const res = await fetch(
-  //         `${URL}/api/mutualfunds/${fund.schemeCode}`,
-  //         {
-  //           method: "DELETE",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-
-  //       if (!res.ok) {
-  //         toast.error("Failed to delete fund: " + res.statusText);
-  //         throw new Error(`Failed to delete fund. Status: ${res.status}`);
-  //       }
-  //       setSavedFunds(updated);
-  //     } else {
-  //       // Add to saved
-  //       updated =
-  //         savedFunds && Array.isArray(savedFunds)
-  //           ? [...savedFunds, fund]
-  //           : [fund];
-  //     }
-
-  //     // Update state optimistically
-
-  //     const res = await fetch(`${URL}/api/mutualfunds`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: JSON.stringify(updated),
-  //     });
-
-  //     if (!res.ok) {
-  //       toast.error("Failed to update saved list: " + res.statusText);
-  //       throw new Error(`Failed to update saved list. Status: ${res.status}`);
-  //     }
-  //     setSavedFunds(updated);
-  //     setSaveLoading(false);
-  //   } catch (err) {
-  //     console.error("Error while saving/removing fund:", err);
-  //     toast.error("Something went wrong");
-  //     // Optional: rollback UI state if needed
-  //   }
-  // };
-
-const toggleSave = async (fund) => {
-  setSaveLoading(true);
-  const token = cookies.get("token");
-
-  if (!token) {
-    toast.error("You need to be logged in to save funds");
-    return;
-  }
-
-  const alreadySaved = savedFunds?.find(
-    (f) => f.schemeCode === fund.schemeCode
-  );
-
-  try {
-    if (alreadySaved) {
-      // UNSAVE: Remove from backend and local state
-      const res = await fetch(`${URL}/api/mutualfunds/${fund.schemeCode}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        toast.error("Failed to remove fund");
-        throw new Error(`Remove failed: ${res.status}`);
-      }
-
-      // Update frontend state
-      setSavedFunds((prev) =>
-        prev.filter((f) => f.schemeCode !== fund.schemeCode)
-      );
-    } else {
-      // SAVE: Send just this fund
-      const res = await fetch(`${URL}/api/mutualfunds`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(fund),
-      });
-
-      if (!res.ok) {
-        toast.error("Failed to save fund");
-        throw new Error(`Save failed: ${res.status}`);
-      }
-
-      // Update frontend state
-      setSavedFunds((prev) => [...prev, fund]);
+    if (!token) {
+      toast.error("You need to be logged in to save funds");
+      return;
     }
 
-    setSaveLoading(false);
-  } catch (err) {
-    console.error("Error while saving/removing fund:", err);
-    toast.error("Something went wrong");
-    setSaveLoading(false);
-  }
-};
+    const alreadySaved =
+      savedFunds &&
+      savedFunds.length > 0 &&
+      savedFunds.find((f) => f.schemeCode === fund.schemeCode);
 
+    try {
+      if (alreadySaved) {
+        // UNSAVE: Remove from backend and local state
+        const res = await fetch(`${URL}/api/mutualfunds/${fund.schemeCode}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          toast.error("Failed to remove fund");
+          throw new Error(`Remove failed: ${res.status}`);
+        }
+
+        // Update frontend state
+        setSavedFunds((prev) =>
+          prev.filter((f) => f.schemeCode !== fund.schemeCode)
+        );
+      } else {
+        // SAVE: Send just this fund
+        const res = await fetch(`${URL}/api/mutualfunds`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(fund),
+        });
+
+        // if (!res.ok) {
+        //   toast.error("Failed to save fund");
+        //   throw new Error(`Save failed: ${res.status}`);
+        // }
+
+        // Update frontend state
+        setSavedFunds((prev) => [...prev, fund]);
+      }
+
+      setSaveLoading(false);
+    } catch (err) {
+      console.error("Error while saving/removing fund:", err);
+      toast.error("Something went wrong");
+      setSaveLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetch("https://api.mfapi.in/mf")
@@ -213,7 +144,9 @@ const toggleSave = async (fund) => {
 
   return (
     <div className="app">
-      <h1 className="title" id="scroll-entry">Mutual Fund Explorer</h1>
+      <h1 className="title" id="scroll-entry">
+        Mutual Fund Explorer
+      </h1>
       <Toaster position="top-center" reverseOrder={false} />
       <input
         type="text"
@@ -238,7 +171,7 @@ const toggleSave = async (fund) => {
         </div>
       )}
 
-      <div className="card-container" >
+      <div className="card-container">
         {currentItems.length === 0 ? (
           <p className="no-results">No matching mutual funds found.</p>
         ) : (

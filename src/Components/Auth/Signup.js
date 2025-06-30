@@ -4,6 +4,8 @@ import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import URL from "../../url.js"; // Adjust the import path as necessary
+import { Ring } from "ldrs/react";
+import "ldrs/react/Ring.css";
 
 const Signup = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -13,12 +15,14 @@ const Signup = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const url = `${URL}/api/auth/register`;
 
@@ -43,11 +47,14 @@ const Signup = () => {
       });
 
       window.location.href = "/"; // Redirect to home page
-
+      
       setMessage("Success! Token: " + data.token);
     } catch (err) {
       toast.error("Something went wrong");
       setMessage(err.message);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -88,9 +95,21 @@ const Signup = () => {
 
         {/* {error && <p className="error-message">{error}</p>} */}
 
-        <p className="signup-q">Already have an account? <a className="signup-link" href="/login">Signin</a></p>
+        <p className="signup-q">
+          Already have an account?{" "}
+          <a className="signup-link" href="/login">
+            Signin
+          </a>
+        </p>
 
-        <button className="login-submit">Sign In</button>
+        <button className="login-submit">
+          {" "}
+          {loading ? (
+            <Ring size="16" stroke="2" bgOpacity="0" speed="2" color="white" />
+          ) : (
+            "Sign Up"
+          )}
+        </button>
       </form>
     </div>
   );

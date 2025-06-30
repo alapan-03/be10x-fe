@@ -4,6 +4,8 @@ import "./App.css";
 import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import URL from "../../url.js"; // Adjust the import path as necessary
+import { Ring } from "ldrs/react";
+import "ldrs/react/Ring.css";
 
 const AuthPage = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -13,12 +15,14 @@ const AuthPage = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const url = `${URL}/api/auth/login`;
 
@@ -31,7 +35,7 @@ const AuthPage = () => {
 
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.msg || "Something went wrong");
+      // if (!res.ok) throw new Error(data.msg || "Something went wrong");
 
       toast.success("Login successful!");
 
@@ -42,12 +46,15 @@ const AuthPage = () => {
         origin: "*", // specify the origin if needed
       });
 
+      
       window.location.href = "/"; // Redirect to home page
-
+      
       setMessage("Success! Token: " + data.token);
     } catch (err) {
       toast.error("Something went wrong");
       setMessage(err.message);
+    }finally {
+    setLoading(false);
     }
   };
 
@@ -59,7 +66,6 @@ const AuthPage = () => {
           <h2>Welcome Back!</h2>
           <p>Sign in to continue</p>
         </div>
-
         <div className="login-name-email">
           <input
             type="email"
@@ -77,17 +83,21 @@ const AuthPage = () => {
             placeholder="Password"
           />
         </div>
-
         {/* {error && <p className="error-message">{error}</p>} */}
-
         <p className="signup-q">
           New User?{" "}
           <a className="signup-link" href="/signup">
             Signup
           </a>
         </p>
-
-        <button className="login-submit">Sign In</button>
+        <button className="login-submit">
+          {" "}
+          {loading ? (
+            <Ring size="16" stroke="2" bgOpacity="0" speed="2" color="white" />
+          ) : (
+            "Sign In"
+          )}
+        </button>{" "}
       </form>
     </div>
   );
