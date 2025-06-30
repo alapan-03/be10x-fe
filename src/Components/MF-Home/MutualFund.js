@@ -45,7 +45,7 @@ function App() {
         // return;
         console.error("Failed to fetch saved funds", err);
       });
-  }, [location.pathname]);
+  }, [location.pathname, cookies.get("token")]);
 
   // Fetch mutual funds data
   useEffect(() => {
