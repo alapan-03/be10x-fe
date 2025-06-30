@@ -12,7 +12,7 @@ export default function Hero() {
       <div className="floating-icons">
         <span className="icon idea">🚀</span>
         <span className="icon brain">🧠</span>
-        <span className="icon gear">🛠️</span>
+        <span className="icon gear">💴</span>
         <span className="icon chart">📈</span>
         <span className="icon rocket">💡</span>
 
